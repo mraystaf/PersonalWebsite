@@ -1,0 +1,53 @@
+<aside>
+  <center><a href="{{ SITEURL }}"><img id="avatar" src="{{ AVATAR }}"></a></center>
+  <h1>{{ SITENAME }}</h1>
+  <a href="/pages/{{ RESUME_PAGE_LINK }}">My Resume</a>
+  <hr>
+  <a><img src="{{ PROFILE_PHOTO_LINK}}" width="180" height="200"></a>
+  <hr>
+  <div class="text"> {{ SIDEBAR_DESCRIPTION }}</div>
+  <hr>
+  <a><img src="{{ GMAIL_PHOTO_LINK }}" width="15" height="15"></a>
+  <a href = "mailto: {{ EMAIL }}">{{ EMAIL }}</a>
+  <hr>
+  <!-- <a><img src="/theme/images/icons/phone.png" width="15" height="15"></a>
+  <a href="tel:2088903049">(208) 890-3049</a>
+  <hr> -->
+  <a href="/author/{{ AUTHOR_PAGE_LINK}}">About Me</a>
+  <hr>
+
+  {% if TWITTER_USERNAME %}
+    <a class="twitter-follow-button"
+    href="https://twitter.com/{{ TWITTER_USERNAME }}"
+    data-show-count="false"
+    data-lang="en">
+    Follow @twitterdev
+    </a>
+    <script type="text/javascript">
+    window.twttr = (function (d, s, id) {
+      var t, js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src= "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      return window.twttr || (t = { _e: [], ready: function (f) { t._e.push(f) } });
+    }(document, "script", "twitter-wjs"));
+    </script>
+  {% endif %}
+
+  <p class="social">
+    {% if SOCIAL %}
+      {% for name, link in SOCIAL %}
+      <a href="{{ link }}" target="_blank" ><img src="{{ SITEURL }}/images/icons/{{ name|lower }}.png" height="30" width="30"></a>
+      {% endfor %}
+    {% endif %}
+    {% if FEED_ALL_ATOM %}
+    <a href="{{ SITEURL }}/{{ FEED_ALL_ATOM }}" rel="alternate">
+      <img src="{{ SITEURL }}/images/icons/rss.png"></a>
+    {% endif %}
+    {% if FEED_ALL_RSS %}
+    <a href="{{ SITEURL }}/{{ FEED_ALL_RSS }}" rel="alternate">
+      <img src="{{ SITEURL }}/images/icons/rss.png"></a>
+    {% endif %}
+  </p>
+</aside>

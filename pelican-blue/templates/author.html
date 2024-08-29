@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<meta name="twitter:creator" content="{{ TWITTER_USERNAME }}">
+<meta name="twitter:url" content="{{ SITEURL }}/{{ author.url }}">
+<meta name="twitter:title" content="{{ SITENAME }} ~ {{ author }}">
+<meta name="twitter:description" content="Articles de {{ author }}">
+
+<!-- Facebook Meta Data -->
+<meta property="og:title" content="{{ SITENAME }} ~ {{ author }}" />
+<meta property="og:description" content="Articles de {{ author }}" />
+<meta property="og:image" content="{{ AVATAR }}" />
+{% endblock head %}
+{% block title %}{{ SITENAME }} - {{ author }}{% endblock %}
+
+
+{% block content %}
+
+
+<h1 class="title">About Me</h1>
+
+<text>
+    I'm a Senior at Brigham Young University (BYU) double-majoring in Applied Mathematics and Economics. I am slated to graduate in December 2024.
+    <br><br>
+    I'm originally from Boise, Idaho, but I currently live in Provo Utah. I like to play sports, the guitar and piano,
+    and spend time with my family and friends. 
+    <br><br>
+    During my time attending school and working, I've come to love solving problems and learning new things. I've especially come to love math, 
+    computer science, statistics, and economics.
+
+    Feel free to reach out if you have any questions!
+</text>
+
+{% endblock content %}
