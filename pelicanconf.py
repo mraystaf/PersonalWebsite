@@ -1,7 +1,7 @@
 AUTHOR = 'Michael Stafford'
 SITENAME = 'Michael Stafford'
-SITEURL = 'https://mraystaf.github.io/PersonalWebsite'
-#SITEURL = ''
+#SITEURL = 'mraystaf.github.io/PersonalWebsite'
+SITEURL = ''
 THEME = "pelican-blue"
 SIDEBAR_DIGEST = 'My Portfolio'
 PATH = 'content'
