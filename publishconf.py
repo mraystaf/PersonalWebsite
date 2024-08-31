@@ -8,7 +8,7 @@ from pelicanconf import *
 
 # If your site is available via HTTPS, make sure SITEURL begins with https://
 #SITEURL = 'https://michaelstafford.com'
-SITEURL = 'mraystaf.github.io/PersonalWebsite'
+SITEURL = 'https://mraystaf.github.io/PersonalWebsite'
 RELATIVE_URLS = False
 THEME = "pelican-blue"
 
