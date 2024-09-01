@@ -8,7 +8,7 @@ PATH = 'content'
 
 # Image links
 AVATAR = SITEURL + '/images/icons/home-button.png'
-PROFILE_PHOTO_LINK = SITEURL + '/images/ProfilePhoto.png'
+PROFILE_PHOTO_LINK = SITEURL + '/images/ProfilePhoto.PNG'
 GMAIL_PHOTO_LINK = SITEURL + '/images/icons/gmail.png'
 AUTHOR_PAGE_LINK = SITEURL + '/author/michael-stafford.html'
 RESUME_PAGE_LINK = SITEURL + '/pages/resume.html'
