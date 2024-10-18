@@ -25,7 +25,7 @@ h1, h2 {
 }
 
 .latest
-{-
+{
   padding: 10px 10px;
   border-bottom: 1px solid #eee;
 }
@@ -105,10 +105,36 @@ a:active { color:#1DAEDF; text-decoration:none; }
 a:hover { text-decoration: underline; }
 
 /* Code */
-.highlight pre {
+/* .highlight pre {
+  background-color: #2e3440;
+  background: #2e3440;
   font-size: 14px;
   overflow: scroll;
+} */
+/* new stuff */
+pre {
+  background-color: #2e3440;  /* Change this to your desired color */
+  border-radius: 5px;
+  padding: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #eceff4; /* Light text color */
+  overflow-x: auto;  /* Add horizontal scroll for long code */
 }
+
+/* Code inside the pre block should inherit the color */
+pre code {
+  background: none;  /* Remove background from code inside pre */
+  color: inherit;    /* Inherit text color for consistency */
+}
+
+/* code {
+  /*background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-family: 'Courier New', monospace;
+  color: #333;
+} */
 
 /* Sidebar */
 aside {
