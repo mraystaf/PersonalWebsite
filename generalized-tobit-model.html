@@ -76,15 +76,15 @@
     <article>
         <h2 class="post_title post_detail"><a href="https://mraystaf.github.io/PersonalWebsite/generalized-tobit-model.html" rel="bookmark" title="Permalink to Generalized Tobit Model">Generalized Tobit Model</a></h2>
         <div class="entry-content blog-post">
-            <h1>Censored Datasets</h1>
+            <h1 id="censored-datasets">Censored Datasets</h1>
 <p>In econometrics, a "censored" dataset is a dataset in which some y values have been truncated. This leads to biased estimation using traditional techniques.</p>
 <p>One example of a truncated dataset is income. Oftentimes, income data is capped at a certain level in an attempt to preserve privacy. Therefore, we'd expect every observation to have the following property:</p>
 <p>$$y_i \leq 250000 \quad \forall i $$</p>
 <p>Other datasets may have different thresholds for different observations. For example, if you are collecting data on the length of unemployment for different indivudals, those who have not yet found a job are censored in the sense that their true length of unemployment is longer than what the survey records. In this sense, censored observations have a threshold value that is unique to that observation. We denote this threshold value $T_i$. If $y^*$ denotes the true length of unemployment, the observed variable $y_i$ is given by:</p>
 <p>$$y_i = min (T_i, y^*_i) $$</p>
-<h1>Tobit Model</h1>
+<h1 id="tobit-model">Tobit Model</h1>
 <p>One way to overcome the censorship issue is using a Tobit Model. This model is a maximum likelihood estimation (MLE) model that accounts for the fact that some of the underlying data is censored. The Tobit model assumes that the underlying data is normally distributed. However, in the real world, data can follow any number of different distributions.</p>
-<h1>Our Project</h1>
+<h1 id="our-project">Our Project</h1>
 <p>Our project constructed alternative models, similar to the Tobit, that assume the data follows a different distribution. The three distributions we explored are the Gamma, Negative Binomial, and Poisson distributions. Our results are contained in the paper below.</p>
 <p><br>
 <embed

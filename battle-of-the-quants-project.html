@@ -78,7 +78,7 @@
         <div class="entry-content blog-post">
             <p>I recently had the opportunity to participate in a "Battle of the Quants" competition, sponsored by BYU's Silverfund. Given a dataset of stock market returns, each team had the task of building a reasonable trading strategy that generated good risk-adjusted returns. Each team submitted a code block and, if they were selected to advance to the final round, presented to a panel of industry professionals.</p>
 <p>I was in a team with two other individuals, and we called ourselves the Cougars of Wall Street (I thought the name was clever). To be honest, we didn't have high expectations going into this project, but we ended up winning second place and a small cash prize! It was a lot of fun and I learned a lot about the quantitative finance industry. Below, I've attached our trading strategy along with some explanation for your viewing pleasure.</p>
-<h2>Our Strategy</h2>
+<h2 id="our-strategy">Our Strategy</h2>
 <p>First, a word about our dataset: we were given a parquet file of monthly stock market data from 1955-2023. There were about 85 different variables to analyze.</p>
 <p>We felt that a reasonable approach to constructing a trading strategy would be to use an asset pricing model. We chose to use the <a href="https://www.sciencedirect.com/science/article/abs/pii/S0304405X14002323">Fama-French 5 factor model</a> as a basis for our strategy. In short, the FAMA and French 5-factor model uses 5 variables to attempt to explain stock market returns. These five variables are:</p>
 <ul>
@@ -124,7 +124,7 @@
 </code></pre></div>
 
 <p>After we loaded the data and made the appropriate adjustments, we proceeded with our algorithm.</p>
-<h2>Algorithm Overview</h2>
+<h2 id="algorithm-overview">Algorithm Overview</h2>
 <p>Our algorithm is as follows:</p>
 <ul>
 <li>Our variables of interest are: [MKT, BEME, ME, ROIC]</li>
@@ -139,7 +139,7 @@
 </ul>
 </li>
 </ul>
-<h2>Find OLS Coefficients</h2>
+<h2 id="find-ols-coefficients">Find OLS Coefficients</h2>
 <p>Using the data available for time period t, we run OLS with the following setup:
 $$ ret_{it} = \alpha + \beta_1 MKT_{it} + \beta_2 BEME_{it} + \beta_3 ME_{it} + \beta_4 ROIC_{it} $$</p>
 <p>Since this regression is only for time period t, this would be considered a cross-sectional regression.</p>
@@ -164,7 +164,7 @@ This means that for our February 2023 portfolio, we want stocks with the <em>hig
     <span class="k">return</span> <span class="n">output</span>
 </code></pre></div>
 
-<h2>Binning:</h2>
+<h2 id="binning">Binning:</h2>
 <p>Now that we know whether to go high or low in each variable, we can create bins in our data.</p>
 <p>First, we start with MKT. We separate all of the stocks in our data into 3 bins: the stocks in the highest MKT, the stocks with medium MKT, and the stocks with the lowest MKT. Since we want to go long in MKT, choose the bin with the highest MKT and throw out all the other data.</p>
 <p>We follow the same process with BEME, now using only the remaining data. Again, we split that data into highest, middle, and lowest BEME. Again, we want to go long in BEME, so we choose only the top bin of BEME, throwing out all the rest of the data.</p>
@@ -209,9 +209,9 @@ This means that for our February 2023 portfolio, we want stocks with the <em>hig
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div>
 
-<h3>Evaluation: Sharpe Ratio and PNL Curve</h3>
+<h3 id="evaluation-sharpe-ratio-and-pnl-curve">Evaluation: Sharpe Ratio and PNL Curve</h3>
 <p>Using our historical data and the process described earlier, we can construct a portfolio for each month of data and test our results against the next month of data. For example, at time t, we construct a portfolio from the OLS coefficients for time t, and test our results based off of the returns at time t+1. We did this using two evaluation metrics: the Sharpe Ratio and the PNL Curve.</p>
-<h4>Sharpe Ratio</h4>
+<h4 id="sharpe-ratio">Sharpe Ratio</h4>
 <p>The <a href="https://www.investopedia.com/terms/s/sharperatio.asp">Sharpe Ratio</a> is a common way to measure risk-adjusted returns. The Sharpe Ratio is simply the excess return of a portfolio divided by the portfolio's standard deviation:</p>
 <p>$$ S_p = \frac{r_p - r_f}{\sigma_p} $$</p>
 <p>For our project, risk-free rate was not given, so we assumed it was zero. The code used to calculate the Sharpe Ratio is given below:</p>
@@ -231,8 +231,8 @@ This means that for our February 2023 portfolio, we want stocks with the <em>hig
 </code></pre></div>
 
 <p>By running this function, we generated the following graph:</p>
-<p><img alt="Sharpe Ratios By Month" src="/images/Sharpe_Ratio.png" title="Sharpe Ratios By Month" /></p>
-<h4>PNL Curve</h4>
+<p><img alt="Sharpe Ratios By Month" src="/images/Sharpe_Ratio.png" title="Sharpe Ratios By Month"></p>
+<h4 id="pnl-curve">PNL Curve</h4>
 <p>A profit and loss (PNL) curve is simply the profit and loss of a portfolio over time. We assumed a beginning investment of 100 dollars. The PnL curve was generated with the following code:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">generate_PnL</span><span class="p">(</span><span class="n">portfolio</span><span class="p">,</span><span class="n">invest</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
     <span class="c1">#Generates the Profit and Loss of a specific month using an investment, portfolio, and subset of data for a date</span>
@@ -246,13 +246,13 @@ This means that for our February 2023 portfolio, we want stocks with the <em>hig
     <span class="k">return</span> <span class="n">total_change_in_profit</span>
 </code></pre></div>
 
-<p><img alt="Profit and Loss Curves" src="/images/PNL_curves.png" title="Profit and Loss Curves" /></p>
-<h4>Conclusion</h4>
+<p><img alt="Profit and Loss Curves" src="/images/PNL_curves.png" title="Profit and Loss Curves"></p>
+<h4 id="conclusion">Conclusion</h4>
 <p>All in all, this was a really fun project to work on! We were able to present our results and get feedback from industry professionals, which was really helpful. We put together a powerpoint presentation and a code file, which I have attached below.</p>
 <p>If you have any questions about our portfolio strategy, feel free to reach out to me!</p>
-<h4>Code</h4>
+<h4 id="code">Code</h4>
 <p>Our code file can be found <a href="https://github.com/mraystaf/CougsOfWallStreet/blob/main/Cougars%20of%20Wall%20Street.ipynb">here</a>.</p>
-<h4>Presentation</h4>
+<h4 id="presentation">Presentation</h4>
 <p><br>
 <embed
 src="files/Cougars_of_Wall_Street.pdf"
