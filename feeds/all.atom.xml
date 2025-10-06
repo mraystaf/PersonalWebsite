@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Michael Stafford</title><link href="https://mraystaf.github.io/PersonalWebsite/" rel="alternate"/><link href="https://mraystaf.github.io/PersonalWebsite/feeds/all.atom.xml" rel="self"/><id>https://mraystaf.github.io/PersonalWebsite/</id><updated>2024-12-12T01:41:00-07:00</updated><entry><title>Generalized Tobit Model</title><link href="https://mraystaf.github.io/PersonalWebsite/generalized-tobit-model.html" rel="alternate"/><published>2024-12-12T01:41:00-07:00</published><updated>2024-12-12T01:41:00-07:00</updated><author><name>Michael Stafford</name></author><id>tag:mraystaf.github.io,2024-12-12:/PersonalWebsite/generalized-tobit-model.html</id><summary type="html">&lt;p&gt;We generalized the Tobit model (a MLE model for censored regressions) for various underlying distributions.&lt;/p&gt;</summary><content type="html">&lt;h1 id="censored-datasets"&gt;Censored Datasets&lt;/h1&gt;
+&lt;p&gt;In econometrics, a "censored" dataset is a dataset in which some y values have been truncated. This leads to biased estimation using traditional techniques.&lt;/p&gt;
+&lt;p&gt;One example of a truncated dataset is income. Oftentimes, income data is capped at a certain level in an attempt to preserve privacy. Therefore, we'd expect every observation to have the following property:&lt;/p&gt;
+&lt;p&gt;$$y_i \leq 250000 \quad \forall i $$&lt;/p&gt;
+&lt;p&gt;Other datasets may have different thresholds for different observations. For example, if you are collecting data on the length of unemployment for different indivudals, those who have not yet found a job are censored in the sense that their true length of unemployment is longer than what the survey records. In this sense, censored observations have a threshold value that is unique to that observation. We denote this threshold value $T_i$. If $y^*$ denotes the true length of unemployment, the observed variable $y_i$ is given by:&lt;/p&gt;
+&lt;p&gt;$$y_i = min (T_i, y^*_i) $$&lt;/p&gt;
+&lt;h1 id="tobit-model"&gt;Tobit Model&lt;/h1&gt;
+&lt;p&gt;One way to overcome the censorship issue is using a Tobit Model. This model is a maximum likelihood estimation (MLE) model that accounts for the fact that some of the underlying data is censored. The Tobit model assumes that the underlying data is normally distributed. However, in the real world, data can follow any number of different distributions.&lt;/p&gt;
+&lt;h1 id="our-project"&gt;Our Project&lt;/h1&gt;
+&lt;p&gt;Our project constructed alternative models, similar to the Tobit, that assume the data follows a different distribution. The three distributions we explored are the Gamma, Negative Binomial, and Poisson distributions. Our results are contained in the paper below.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;embed
+src="files/Econ_588_Paper.pdf"
+width="700px"
+height="700px"&gt;
+&lt;/embed&gt;&lt;/p&gt;</content><category term="Projects"/></entry><entry><title>Battle of the Quants Project</title><link href="https://mraystaf.github.io/PersonalWebsite/battle-of-the-quants-project.html" rel="alternate"/><published>2024-10-13T08:23:00-06:00</published><updated>2024-10-13T08:23:00-06:00</updated><author><name>Michael Stafford</name></author><id>tag:mraystaf.github.io,2024-10-13:/PersonalWebsite/battle-of-the-quants-project.html</id><summary type="html">&lt;p&gt;My group and I created a portfolio trading strategy as part of a university competition. We finished in second place!&lt;/p&gt;</summary><content type="html">&lt;p&gt;I recently had the opportunity to participate in a "Battle of the Quants" competition, sponsored by BYU's Silverfund. Given a dataset of stock market returns, each team had the task of building a reasonable trading strategy that generated good risk-adjusted returns. Each team submitted a code block and, if they were selected to advance to the final round, presented to a panel of industry professionals.&lt;/p&gt;
+&lt;p&gt;I was in a team with two other individuals, and we called ourselves the Cougars of Wall Street (I thought the name was clever). To be honest, we didn't have high expectations going into this project, but we ended up winning second place and a small cash prize! It was a lot of fun and I learned a lot about the quantitative finance industry. Below, I've attached our trading strategy along with some explanation for your viewing pleasure.&lt;/p&gt;
+&lt;h2 id="our-strategy"&gt;Our Strategy&lt;/h2&gt;
+&lt;p&gt;First, a word about our dataset: we were given a parquet file of monthly stock market data from 1955-2023. There were about 85 different variables to analyze.&lt;/p&gt;
+&lt;p&gt;We felt that a reasonable approach to constructing a trading strategy would be to use an asset pricing model. We chose to use the &lt;a href="https://www.sciencedirect.com/science/article/abs/pii/S0304405X14002323"&gt;Fama-French 5 factor model&lt;/a&gt; as a basis for our strategy. In short, the FAMA and French 5-factor model uses 5 variables to attempt to explain stock market returns. These five variables are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Market return&lt;/li&gt;
+&lt;li&gt;Book-to-Market Ratio&lt;/li&gt;
+&lt;li&gt;Market Cap&lt;/li&gt;
+&lt;li&gt;Profitability&lt;/li&gt;
+&lt;li&gt;Investment&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Since Fama and French deemed these variables significant in explaining stock returns, we decided to use these variables as a starting point for constructing our model. However, some of our initial regressions determined that profitability did not have any correlation with returns in our historical dataset. Therefore, we decided to drop profitability from our analysis. That left us with four variables to use; each corresponding to one of Fama and French's 5 factors&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MKT (market return)&lt;/li&gt;
+&lt;li&gt;BEME (book-to-market ratio)&lt;/li&gt;
+&lt;li&gt;ME (market cap)&lt;/li&gt;
+&lt;li&gt;ROIC (we used as a proxy for investment)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Market returns (MKT) was not present in our original data, but could be calculated using a value-weight portfolio of all the stocks in the dataset. This was done in the following function:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;LoadAndFormatData&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date_to_begin&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Load data into dataframe&lt;/span&gt;
+    &lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_parquet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Data/BoQ_Data.parquet&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DATE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_datetime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DATE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;date_to_begin&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DATE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_datetime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date_to_begin&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;AddMarketReturn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dataframe&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;# Define a function to calculate the weighted mean return&lt;/span&gt;
+        &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;weighted_mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;RET&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ME&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ME&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# Group by &amp;#39;DATE&amp;#39; and apply the weighted mean to each group&lt;/span&gt;
+        &lt;span class="n"&gt;dataframe&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;mkt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dataframe&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DATE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Series&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;weighted_mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reset_index&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;drop&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;dataframe&lt;/span&gt;
+    &lt;span class="c1"&gt;# Define the look-ahead variable that will be used to evaluate our portfolio&lt;/span&gt;
+    &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;RET_t+1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PERMNO&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;RET&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;AddMarketReturn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After we loaded the data and made the appropriate adjustments, we proceeded with our algorithm.&lt;/p&gt;
+&lt;h2 id="algorithm-overview"&gt;Algorithm Overview&lt;/h2&gt;
+&lt;p&gt;Our algorithm is as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Our variables of interest are: [MKT, BEME, ME, ROIC]&lt;/li&gt;
+&lt;li&gt;For each month:&lt;ul&gt;
+&lt;li&gt;OLS: Calculate the OLS coefficients for each variable. Note the signs of the coefficients for each variable.&lt;/li&gt;
+&lt;li&gt;Binning: Iterate through our variables. For each variable:&lt;ul&gt;
+&lt;li&gt;Separate the available data into 3 bins.&lt;/li&gt;
+&lt;li&gt;If the OLS coefficient was positive, keep the highest bin and discard all other data. If the OLS coefficient was negative, keep the lowest bin and discard all other data.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Evaluation: Calculate the Sharpe Ratio and profit with respect to returns in the next time frame&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="find-ols-coefficients"&gt;Find OLS Coefficients&lt;/h2&gt;
+&lt;p&gt;Using the data available for time period t, we run OLS with the following setup:
+$$ ret_{it} = \alpha + \beta_1 MKT_{it} + \beta_2 BEME_{it} + \beta_3 ME_{it} + \beta_4 ROIC_{it} $$&lt;/p&gt;
+&lt;p&gt;Since this regression is only for time period t, this would be considered a cross-sectional regression.&lt;/p&gt;
+&lt;p&gt;Once each coefficient is calculated, we make note of whether each coefficient is positive or negative. This determines whether we should "go long" or "go short" in this variable. &lt;/p&gt;
+&lt;p&gt;For example, let's say we run this regression for January 2023 data, and the coefficients for MKT and BEME are positive, but the coefficients for ME and ROIC is negative. In mathematical terms:
+$$ \beta_1, \beta_2 &amp;gt; 0, \quad \beta_3, \beta_4 &amp;lt; 0 $$
+This means that for our February 2023 portfolio, we want stocks with the &lt;em&gt;highest&lt;/em&gt; MKT and BEME, but with the &lt;em&gt;lowest&lt;/em&gt; ME and ROIC. To put this in array form, we want [high, high, low, low].&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;FindCoefficients&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dataframe&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;regressors&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dataframe&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;RET&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dataframe&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;regressors&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_constant&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Regress returns on our list of regressors&lt;/span&gt;
+    &lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;OLS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;regtable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Regtable&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="n"&gt;stat&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tstat&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;sig&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;tbl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;regtable&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;render&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;variable&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;regressors&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tbl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;variable&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iloc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id="binning"&gt;Binning:&lt;/h2&gt;
+&lt;p&gt;Now that we know whether to go high or low in each variable, we can create bins in our data.&lt;/p&gt;
+&lt;p&gt;First, we start with MKT. We separate all of the stocks in our data into 3 bins: the stocks in the highest MKT, the stocks with medium MKT, and the stocks with the lowest MKT. Since we want to go long in MKT, choose the bin with the highest MKT and throw out all the other data.&lt;/p&gt;
+&lt;p&gt;We follow the same process with BEME, now using only the remaining data. Again, we split that data into highest, middle, and lowest BEME. Again, we want to go long in BEME, so we choose only the top bin of BEME, throwing out all the rest of the data.&lt;/p&gt;
+&lt;p&gt;The same process follows with ME and ROIC. But since we wanted to go short in these variables, we choose the bin with the lowest ME (ROIC), throwing out all the other data.&lt;/p&gt;
+&lt;p&gt;So for each variable, we split the data into thirds and take the optimal bin, where the optimal choice depends on the sign of the OLS coefficient. At the end of our binning process, we are left with a group of stocks that are optimal in each variable, for that time period.&lt;/p&gt;
+&lt;p&gt;Remember, this process is done for every month, so the OLS coefficients may change each month. &lt;/p&gt;
+&lt;p&gt;The function below implements this binning process.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;BinPortfolio&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dataframe&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;all_dataframe_vars&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;vars_to_bin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;go_long&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;number_of_bins&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;Separates the available data into bins, based on the vars_to_bin variables provided&amp;quot;&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;go_long is the output of FindCoefficients, indicating whether we take the highest or lowest bin of the corresponding variable&amp;quot;&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;Returns: a dataframe representing the stocks selected in the portfolio&amp;quot;&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;go_long&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vars_to_bin&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;ValueError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;The length of go_long needs to be the same as the length of vars_to_bin. &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;go_long&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; != &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vars_to_bin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Find the subset of the dataframe that we care about&lt;/span&gt;
+    &lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dataframe&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;all_dataframe_vars&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dropna&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reset_index&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;drop&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;bin_names&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="n"&gt;best_bins&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bin_var&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vars_to_bin&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;column_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;bin_var&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;_bins&amp;quot;&lt;/span&gt;
+        &lt;span class="n"&gt;bin_names&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;column_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reset_index&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;drop&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;column_name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qcut&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;bin_var&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="n"&gt;number_of_bins&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;labels&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# Based on go_long, take the highest or lowest bin&lt;/span&gt;
+        &lt;span class="n"&gt;best_bin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;number_of_bins&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;go_long&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+        &lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;column_name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;best_bin&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# Delete the bin column name&lt;/span&gt;
+        &lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;column_name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+        &lt;span class="n"&gt;best_bins&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;best_bin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reset_index&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;drop&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="evaluation-sharpe-ratio-and-pnl-curve"&gt;Evaluation: Sharpe Ratio and PNL Curve&lt;/h3&gt;
+&lt;p&gt;Using our historical data and the process described earlier, we can construct a portfolio for each month of data and test our results against the next month of data. For example, at time t, we construct a portfolio from the OLS coefficients for time t, and test our results based off of the returns at time t+1. We did this using two evaluation metrics: the Sharpe Ratio and the PNL Curve.&lt;/p&gt;
+&lt;h4 id="sharpe-ratio"&gt;Sharpe Ratio&lt;/h4&gt;
+&lt;p&gt;The &lt;a href="https://www.investopedia.com/terms/s/sharperatio.asp"&gt;Sharpe Ratio&lt;/a&gt; is a common way to measure risk-adjusted returns. The Sharpe Ratio is simply the excess return of a portfolio divided by the portfolio's standard deviation:&lt;/p&gt;
+&lt;p&gt;$$ S_p = \frac{r_p - r_f}{\sigma_p} $$&lt;/p&gt;
+&lt;p&gt;For our project, risk-free rate was not given, so we assumed it was zero. The code used to calculate the Sharpe Ratio is given below:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;SharpeRatio&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;portfolio&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;past_returns_from_portfolio&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;rf&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+
+    &lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;portfolio&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;PERMNO&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;
+
+    &lt;span class="n"&gt;past_returns_from_portfolio&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;past_returns_from_portfolio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pivot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DATE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;PERMNO&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;RET_t+1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;past_returns_from_portfolio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fillna&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inplace&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;# NOTE: Filling missing values with 0 may underestimate the &amp;quot;true&amp;quot; variance, and thereby overestimating the Sharpe Ratio&lt;/span&gt;
+
+    &lt;span class="n"&gt;weights&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ones&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="c1"&gt;# We will use an equal-weight portfolio&lt;/span&gt;
+    &lt;span class="n"&gt;cov_matrix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;past_returns_from_portfolio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cov&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;std_dev&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;cov_matrix&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;portfolio&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;RET_t+1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;rf&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;std_dev&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;By running this function, we generated the following graph:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Sharpe Ratios By Month" src="/images/Sharpe_Ratio.png" title="Sharpe Ratios By Month"&gt;&lt;/p&gt;
+&lt;h4 id="pnl-curve"&gt;PNL Curve&lt;/h4&gt;
+&lt;p&gt;A profit and loss (PNL) curve is simply the profit and loss of a portfolio over time. We assumed a beginning investment of 100 dollars. The PnL curve was generated with the following code:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;generate_PnL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;portfolio&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;invest&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c1"&gt;#Generates the Profit and Loss of a specific month using an investment, portfolio, and subset of data for a date&lt;/span&gt;
+
+    &lt;span class="c1"&gt;#Gets the PERMNOs of companies of the bin in a list&lt;/span&gt;
+    &lt;span class="n"&gt;PERMNO&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;portfolio&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PERMNO&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="n"&gt;change_in_profit&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;portfolio&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;RET&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PERMNO&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;total_change_in_profit&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;change_in_profit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;total_change_in_profit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="Profit and Loss Curves" src="/images/PNL_curves.png" title="Profit and Loss Curves"&gt;&lt;/p&gt;
+&lt;h4 id="conclusion"&gt;Conclusion&lt;/h4&gt;
+&lt;p&gt;All in all, this was a really fun project to work on! We were able to present our results and get feedback from industry professionals, which was really helpful. We put together a powerpoint presentation and a code file, which I have attached below.&lt;/p&gt;
+&lt;p&gt;If you have any questions about our portfolio strategy, feel free to reach out to me!&lt;/p&gt;
+&lt;h4 id="code"&gt;Code&lt;/h4&gt;
+&lt;p&gt;Our code file can be found &lt;a href="https://github.com/mraystaf/CougsOfWallStreet/blob/main/Cougars%20of%20Wall%20Street.ipynb"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id="presentation"&gt;Presentation&lt;/h4&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;embed
+src="files/Cougars_of_Wall_Street.pdf"
+width="700px"
+height="700px"&gt;
+&lt;/embed&gt;&lt;/p&gt;</content><category term="Projects"/></entry><entry><title>Optimal Control: Tax Rates and Pollution</title><link href="https://mraystaf.github.io/PersonalWebsite/optimal-control-tax-rates-and-pollution.html" rel="alternate"/><published>2024-07-06T06:30:00-06:00</published><updated>2024-07-06T06:30:00-06:00</updated><author><name>Michael Stafford</name></author><id>tag:mraystaf.github.io,2024-07-06:/PersonalWebsite/optimal-control-tax-rates-and-pollution.html</id><summary type="html">&lt;p&gt;We used optimal control principles to find the optimal tax rate to impose on a company that generates pollutants in a fictionalized scenario.&lt;/p&gt;</summary><content type="html">&lt;p&gt;We use optimal control principles to determine the optimal tax rate for a company that generates pollution.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;embed
+src="files/Optimal_Pollution_Tax_Project.pdf"
+width="700px"
+height="700px"&gt;
+&lt;/embed&gt;&lt;/p&gt;</content><category term="Projects"/></entry><entry><title>Time Series Analysis: GDP</title><link href="https://mraystaf.github.io/PersonalWebsite/time-series-analysis-gdp.html" rel="alternate"/><published>2024-07-06T06:30:00-06:00</published><updated>2024-07-06T06:30:00-06:00</updated><author><name>Michael Stafford</name></author><id>tag:mraystaf.github.io,2024-07-06:/PersonalWebsite/time-series-analysis-gdp.html</id><summary type="html">&lt;p&gt;We used machine learning techniques such as ARMA models and the Kalman Filter to predict future GDP levels in the United States.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Using Kalman Filter, ARMA model, and structural estimation techniques, we filter and forecast GDP for the United States. The results are contained in the following paper.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;embed
+src="files/Filter_Forecast_GDP_Project.pdf"
+width="700px"
+height="700px"&gt;
+&lt;/embed&gt;&lt;/p&gt;</content><category term="Projects"/></entry><entry><title>Asset Analysis: Commodities</title><link href="https://mraystaf.github.io/PersonalWebsite/asset-analysis-commodities.html" rel="alternate"/><published>2024-07-06T06:27:00-06:00</published><updated>2024-07-06T06:27:00-06:00</updated><author><name>Michael Stafford</name></author><id>tag:mraystaf.github.io,2024-07-06:/PersonalWebsite/asset-analysis-commodities.html</id><summary type="html">&lt;p&gt;An overview of commodities; what they are, how they are traded, and their past performance in the market.&lt;/p&gt;</summary><content type="html">&lt;p&gt;During the Winter 2024 semester, I wrote a paper about commodities. I explored what commodities are, their underlying value, how they are traded, and their recent performance in the market.&lt;/p&gt;
+&lt;p&gt;I've attached a pdf of my paper below.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;embed
+src="files/CommodityAnalysis.pdf"
+width="700px"
+height="700px"&gt;
+&lt;/embed&gt;&lt;/p&gt;</content><category term="Projects"/></entry><entry><title>Augmented Solow Growth Model</title><link href="https://mraystaf.github.io/PersonalWebsite/augmented-solow-growth-model.html" rel="alternate"/><published>2024-07-06T06:27:00-06:00</published><updated>2024-07-06T06:27:00-06:00</updated><author><name>Michael Stafford</name></author><id>tag:mraystaf.github.io,2024-07-06:/PersonalWebsite/augmented-solow-growth-model.html</id><summary type="html">&lt;p&gt;We explored the Solow Growth Model (a macroeconomic differential equation) and added some extensions to it to test its validity.&lt;/p&gt;</summary><content type="html">&lt;p&gt;During the Fall 2023 semester, I worked on a group project where we explored the Solow Growth Model and added a few variations.
+The Solow Growth Model is a macroeconomic model that shows a country's GDP over time based on a number of factors, such as starting capital, savings rate, and worker productivity.
+&lt;br&gt;
+Our project explored how the model would change if one accounted for wars, changes in population dynamics, technology shocks, variable worker productivity, and other factors. 
+&lt;br&gt;
+I've attached a pdf of our paper below.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;embed
+src="files/Augmented_Solow_Growth_Project.pdf"
+width="700px"
+height="700px"&gt;
+&lt;/embed&gt;&lt;/p&gt;</content><category term="Projects"/></entry></feed>
