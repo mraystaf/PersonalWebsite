@@ -77,11 +77,11 @@
         <h2 class="post_title post_detail"><a href="https://mraystaf.github.io/PersonalWebsite/generalized-tobit-model.html" rel="bookmark" title="Permalink to Generalized Tobit Model">Generalized Tobit Model</a></h2>
         <div class="entry-content blog-post">
             <h1 id="censored-datasets">Censored Datasets</h1>
-<p>In econometrics, a "censored" dataset is a dataset in which some y values have been truncated. This leads to biased estimation using traditional techniques.</p>
+<p>In econometrics, a dataset is "censored" when some of its y values have been truncated. This leads to biased estimation using traditional techniques.</p>
 <p>One example of a truncated dataset is income. Oftentimes, income data is capped at a certain level in an attempt to preserve privacy. Therefore, we'd expect every observation to have the following property:</p>
-<p>$$y_i \leq 250000 \quad \forall i $$</p>
-<p>Other datasets may have different thresholds for different observations. For example, if you are collecting data on the length of unemployment for different indivudals, those who have not yet found a job are censored in the sense that their true length of unemployment is longer than what the survey records. In this sense, censored observations have a threshold value that is unique to that observation. We denote this threshold value $T_i$. If $y^*$ denotes the true length of unemployment, the observed variable $y_i$ is given by:</p>
-<p>$$y_i = min (T_i, y^*_i) $$</p>
+<div class="math">$$y_i \leq 250000 \quad \forall i $$</div>
+<p>Other datasets may have different thresholds for different observations. For example, if you are collecting data on the length of unemployment for different indivudals, those who have not yet found a job are censored in the sense that their true length of unemployment is longer than what the survey records. In this sense, censored observations have a threshold value that is unique to that observation. We denote this threshold value <span class="math">\(T_i\)</span>. If <span class="math">\(y^*\)</span> denotes the true length of unemployment, the observed variable <span class="math">\(y_i\)</span> is given by:</p>
+<div class="math">$$ y_i = \min(T_i, y^*_i) $$</div>
 <h1 id="tobit-model">Tobit Model</h1>
 <p>One way to overcome the censorship issue is using a Tobit Model. This model is a maximum likelihood estimation (MLE) model that accounts for the fact that some of the underlying data is censored. The Tobit model assumes that the underlying data is normally distributed. However, in the real world, data can follow any number of different distributions.</p>
 <h1 id="our-project">Our Project</h1>
@@ -92,6 +92,68 @@ src="files/Econ_588_Paper.pdf"
 width="700px"
 height="700px">
 </embed></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
         </div>
         <!-- <div class="post_list">
             <span>By </span>

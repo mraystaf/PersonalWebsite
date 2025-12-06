@@ -141,11 +141,14 @@
 </ul>
 <h2 id="find-ols-coefficients">Find OLS Coefficients</h2>
 <p>Using the data available for time period t, we run OLS with the following setup:
-$$ ret_{it} = \alpha + \beta_1 MKT_{it} + \beta_2 BEME_{it} + \beta_3 ME_{it} + \beta_4 ROIC_{it} $$</p>
+</p>
+<div class="math">$$ ret_{it} = \alpha + \beta_1 MKT_{it} + \beta_2 BEME_{it} + \beta_3 ME_{it} + \beta_4 ROIC_{it} $$</div>
 <p>Since this regression is only for time period t, this would be considered a cross-sectional regression.</p>
 <p>Once each coefficient is calculated, we make note of whether each coefficient is positive or negative. This determines whether we should "go long" or "go short" in this variable. </p>
 <p>For example, let's say we run this regression for January 2023 data, and the coefficients for MKT and BEME are positive, but the coefficients for ME and ROIC is negative. In mathematical terms:
-$$ \beta_1, \beta_2 &gt; 0, \quad \beta_3, \beta_4 &lt; 0 $$
+</p>
+<div class="math">$$ \beta_1, \beta_2 &gt; 0, \quad \beta_3, \beta_4 &lt; 0 $$</div>
+<p>
 This means that for our February 2023 portfolio, we want stocks with the <em>highest</em> MKT and BEME, but with the <em>lowest</em> ME and ROIC. To put this in array form, we want [high, high, low, low].</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">FindCoefficients</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">regressors</span><span class="p">):</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;RET&#39;</span><span class="p">]</span>
@@ -213,7 +216,7 @@ This means that for our February 2023 portfolio, we want stocks with the <em>hig
 <p>Using our historical data and the process described earlier, we can construct a portfolio for each month of data and test our results against the next month of data. For example, at time t, we construct a portfolio from the OLS coefficients for time t, and test our results based off of the returns at time t+1. We did this using two evaluation metrics: the Sharpe Ratio and the PNL Curve.</p>
 <h4 id="sharpe-ratio">Sharpe Ratio</h4>
 <p>The <a href="https://www.investopedia.com/terms/s/sharperatio.asp">Sharpe Ratio</a> is a common way to measure risk-adjusted returns. The Sharpe Ratio is simply the excess return of a portfolio divided by the portfolio's standard deviation:</p>
-<p>$$ S_p = \frac{r_p - r_f}{\sigma_p} $$</p>
+<div class="math">$$ S_p = \frac{r_p - r_f}{\sigma_p} $$</div>
 <p>For our project, risk-free rate was not given, so we assumed it was zero. The code used to calculate the Sharpe Ratio is given below:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">SharpeRatio</span><span class="p">(</span><span class="n">portfolio</span><span class="p">,</span> <span class="n">past_returns_from_portfolio</span><span class="p">,</span> <span class="n">rf</span><span class="p">):</span>
 
@@ -259,6 +262,68 @@ src="files/Cougars_of_Wall_Street.pdf"
 width="700px"
 height="700px">
 </embed></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
         </div>
         <!-- <div class="post_list">
             <span>By </span>
