@@ -1,0 +1,174 @@
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="stylesheet" href="https://mraystaf.github.io/PersonalWebsite/static/css/pygments.css">
+
+
+<!doctype html>
+<html lang="en" itemscope itemtype="http://schema.org/Person">
+<head>
+  <meta charset="utf-8">
+  <!-- Site Meta Data -->
+  <title>NCAA Tournament Predictor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Michael Stafford">
+
+  <link rel="shortcut icon" href="https://mraystaf.github.io/PersonalWebsite/images/icons/integral.png">
+
+  <!-- schema.org -->
+  <meta itemprop="name" content="Michael Stafford">
+  <meta itemprop="image" content="https://mraystaf.github.io/PersonalWebsite/images/icons/home-button.png">
+  <meta itemprop="description" content="">
+
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+  <!-- Style Meta Data -->
+  <link rel="stylesheet" href="https://mraystaf.github.io/PersonalWebsite/theme/css/style.css" type="text/css" />
+  <link rel="stylesheet" href="https://mraystaf.github.io/PersonalWebsite/theme/css/pygments.css" type="text/css" />
+
+  <!-- Feed Meta Data -->
+
+  <!-- Twitter Feed -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="">
+  <meta name="twitter:image" content="">
+
+<meta name="twitter:creator" content="">
+<meta name="twitter:url" content="https://mraystaf.github.io/PersonalWebsite/ncaa-tournament-predictor.html">
+<meta name="twitter:title" content="Michael Stafford ~ NCAA Tournament Predictor">
+<meta name="twitter:description" content="<p>I made a computer simulation to predict the outcome of the NCAA tournament and compared it to my own predictions.</p>">
+
+<!-- Facebook Meta Data -->
+<meta property="og:title" content="Michael Stafford ~ NCAA Tournament Predictor" />
+<meta property="og:description" content="<p>I made a computer simulation to predict the outcome of the NCAA tournament and compared it to my own predictions.</p>" />
+<meta property="og:image" content="" />
+</head>
+
+<body>
+  <!-- Sidebar -->
+
+<aside>
+  <center><a href="https://mraystaf.github.io/PersonalWebsite"><img id="avatar" src="https://mraystaf.github.io/PersonalWebsite/images/icons/home-button.png"></a></center>
+  <h1>Michael Stafford</h1>
+  <a href="https://mraystaf.github.io/PersonalWebsite/pages/resume.html">My Resume</a>
+  <hr>
+  <a><img src="https://mraystaf.github.io/PersonalWebsite/images/ProfilePhoto.PNG" width="180" height="200"></a>
+  <hr>
+  <div class="text"> Math | Computer Science | Economics</div>
+  <hr>
+  <a><img src="https://mraystaf.github.io/PersonalWebsite/images/icons/gmail.png" width="15" height="15"></a>
+  <a href = "mailto: mraystafford99@gmail.com">mraystafford99@gmail.com</a>
+  <hr>
+  <!-- <a><img src="/theme/images/icons/phone.png" width="15" height="15"></a>
+  <a href="tel:2088903049">(208) 890-3049</a>
+  <hr> -->
+  <a href="https://mraystaf.github.io/PersonalWebsite/author/michael-stafford.html">About Me</a>
+  <hr>
+
+
+  <p class="social">
+      <a href="https://www.linkedin.com/in/michael-stafford99/" target="_blank" ><img src="https://mraystaf.github.io/PersonalWebsite/images/icons/linkedin-s.png" height="30" width="30"></a>
+      <a href="https://github.com/mraystaf" target="_blank" ><img src="https://mraystaf.github.io/PersonalWebsite/images/icons/github.png" height="30" width="30"></a>
+      <a href="https://stackoverflow.com/users/24755913/michael-stafford" target="_blank" ><img src="https://mraystaf.github.io/PersonalWebsite/images/icons/stackoverflow.png" height="30" width="30"></a>
+  </p>
+</aside>
+  <!-- Content -->
+  <article>
+<section id="content">
+    <article>
+        <h2 class="post_title post_detail"><a href="https://mraystaf.github.io/PersonalWebsite/ncaa-tournament-predictor.html" rel="bookmark" title="Permalink to NCAA Tournament Predictor">NCAA Tournament Predictor</a></h2>
+        <div class="entry-content blog-post">
+            <p>I've watched an embarrassing amount of college basketball this year. So when it came time for the NCAA tournament, I was excited to fill out my bracket and show the world my knowledge about this season's college basketball landscape. Additionally, since there is so much college basketball data readily available, I figured it wouldn't be too hard to use some python to construct a computer simulation. I named my personal bracket "Michael's Eye Test Picks" and dubbed my computer simulation "Michael's Machine Picks". Naturally, I wanted to compare these two brackets to see which would win.
+<br>
+<br></p>
+<h2 id="the-ncaa-tournament">The NCAA Tournament</h2>
+<p><br>
+The month of March is like Christmas for college basketball fans. After a 4-month regular season, teams are assembled into a postseason tournament known colloquially as "March Madness".</p>
+<p>When the March Madness bracket is revealed, people around the globe predict what will transpire in the tournament by filling out a bracket. The tournament is notoriously unpredictable; it is not uncommon for smaller schools composed of future insurance agents to beat "blue-blood" schools composed of future NBA players. An underdog victory is known as an "upset" and they have caused many a bracket prediction to go awry.</p>
+<p>Individuals who fill out brackets can join groups and compare their predictions with friends, family, and coworkers. For example, ESPN has a "Tournament Challenge" app that allows you to fill out a bracket online and check how your bracket holds up compared to your competitors. I was in two groups this year: one with my extended family and one with my coworkers.
+<br>
+<br></p>
+<h2 id="college-basketball-and-data-science">College Basketball and Data Science</h2>
+<p><br>
+College basketball has become a playground for data science nerds such as myself. Everything about the sport is data-driven. There are multiple computer ranking systems (such as KenPom and NET) which play a direct role in deciding which teams make the postseason tournament and where they are seeded. When the postseason arrives, teams are evaluated based on their "resumes", which are composed in large part of their KenPom ranking, a quadrant system based on NET rating, and team metrics such as offensive and defensive efficiency. A committee synthesizes this data to create the bracket.
+<br>
+<br></p>
+<h2 id="data">Data</h2>
+<p><br>
+There are a lot of gurus on the intersection between college basketball and data science, such as Evan Miyakawa TODO and Bart Torvik. They put in a lot of work assembling data and creating their own metrics to understand how data can be used to inform college basketball outcomes. For my computer simulation, I relied upon Bart Torvik's data, found <a href="https://barttorvik.com/#">here</a>.</p>
+<p>I used two datasets: one containing team-level data (one row per team) and one containing game-level data (one row per game). Both datasets only contained data from the 2025-2026 season.
+<br>
+<br></p>
+<h2 id="feature-engineering">Feature Engineering</h2>
+<p><br>
+I combined these two datasets together using the team name as the identifier. The result was a dataset containing game-level data. For each game, teams were assigned to be "Team1" or "Team2". </p>
+<p>Each row contained dummy variables for each team (indicating whether a certain team was Team1, Team2, or neither), and then the following variables:</p>
+<ul>
+<li>Difference in adjusted offensive efficiency (Team1 - Team2)</li>
+<li>Difference in adjusted defensive efficiency</li>
+<li>Difference in offensive efficiency for conference play only</li>
+<li>Difference in defensive efficiency for conference play only</li>
+<li>Difference in points allowed during confernce play</li>
+<li>Difference in possessions during conference play</li>
+<li>Difference in wins above bubble</li>
+</ul>
+<p>The resulting dataset (without the dummy variables) looked something like this:</p>
+<p><img alt="I would prefer using SQL over pandas, but I was too lazy to convert csv's into SQL tables" src="images/TourneyPredictorData.png"></p>
+<p>The model was trained on the 2025-2026 regular season and conference tournament data. For each tournament matchup, I wrote some code that accepts two team names and spits out a data row for the model to predict. The outcome variable was a boolean indicating whether Team 1 won.</p>
+<p>There are probably better ways to engineer this data. For example, some conferences have higher levels of competition than others, so comparing comference play data may be comparing apples to oranges. Nevertheless, I think the data works decently well as a representation of the season.
+<br>
+<br></p>
+<h2 id="my-simulation">My Simulation</h2>
+<p><br>
+For my model architecture, I used <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingClassifier.html">sklearn's <code>HistGradientBoostingClassifier</code></a>.</p>
+<p>A <a href="https://www.ibm.com/think/topics/gradient-boosting#:~:text=Gradient%20boosting%20is%20a%20machine,minimize%20errors%20and%20improve%20accuracy.">gradient boosting classifier</a> iteratively constructs decision trees based on the errors ("residuals") of the previous iteration. These iterations are combined into one ensemble. <a href="https://www.geeksforgeeks.org/machine-learning/histgradientboostingclassifier-in-sklearn/">Histogram gradient boosting</a> is a special type of gradient boosting where continuous features are binned in order to speed up training time.</p>
+<p>I chose the <code>HistGradientBoostingClassifier</code> because I felt that it has a good balance of high predictive accuracy and training speed. I didn't bother tuning any hyperparameters.</p>
+<p>I wrote some code to simulate the tournament format (winner advances lower eliminated). Once the bracket was announced, I put the team names in the correct places, ran the simulation one time, and recorded the results. Then, as the actual tournament unfolded, I got to evaluate my picks compared to the simulation.
+<br>
+<br></p>
+<h2 id="results">Results</h2>
+<p><br>
+(drumroll please)...</p>
+<p><img alt="My 7-year-old nephew won our family tournament. He let me hear about it too. I'll need to get revenge on him next year." src="images/TourneyPredictorResults.jpg"></p>
+<p><strong>Machine learning wins!</strong> The computer simulation edged out my personal picks in a battle that turned out to be extremely mediocre. Both brackets ended up around the median. Once again, my hours in front of the TV watching college basketball did not pay off. I already knew AI might be better than me at my job; I didn't realize it was better than me at my hobbies too.
+<br>
+<br></p>
+<h2 id="conclusion">Conclusion</h2>
+<p><br>
+If you'd like to see my full code, visit <a href="https://github.com/mraystaf/TourneyPredictor">My Github</a>. In main.ipynb, you can see all the picks the simulation made. There were a few head-scratchers (Idaho over Houston, Miami OH in the Elite Eight), but who am I to judge? It performed better than I did.</p>
+        </div>
+        <!-- <div class="post_list">
+            <span>By </span>
+            <a href="https://mraystaf.github.io/PersonalWebsite/author/michael-stafford.html">@Michael Stafford</a>
+            <span> in </span>
+            <span class="post_category"><a href="https://mraystaf.github.io/PersonalWebsite/category/projects.html" rel="bookmark" title="Permalink to Projects">[ Projects ]</a></span>
+            <span class="post_date">Sun 29 March 2026</span>
+            <div><span>Tags : </span>
+            </div>
+
+            <div class="entry-social">
+                <span class="twitter"><a target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="Twitter" href="https://twitter.com/share?url=https://mraystaf.github.io/PersonalWebsite/ncaa-tournament-predictor.html&text=NCAA Tournament Predictor&via="><img src="https://mraystaf.github.io/PersonalWebsite/theme/images/icons/twitter-s.png"></a></span>
+
+                <span class="gplus"><a target="_blank" title="Google +" href="https://plus.google.com/share?url=https://mraystaf.github.io/PersonalWebsite/ncaa-tournament-predictor.html&hl=fr" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="https://mraystaf.github.io/PersonalWebsite/theme/images/icons/google-s.png"></a></span>
+
+                <span class="facebook"><a target="_blank" title="Facebook" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;" href="https://www.facebook.com/sharer.php?u=https://mraystaf.github.io/PersonalWebsite/ncaa-tournament-predictor.html&t=NCAA Tournament Predictor"><img src="https://mraystaf.github.io/PersonalWebsite/theme/images/icons/facebook-s.png"></a></span>
+
+                <a  target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://mraystaf.github.io/PersonalWebsite/ncaa-tournament-predictor.html&title=NCAA Tournament Predictor" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="https://mraystaf.github.io/PersonalWebsite/theme/images/icons/linkedin-s.png"></a>
+
+                <span class="mail"><a href="mailto:?subject=NCAA Tournament Predictor&amp;body=Viens découvrir un article à propos de [NCAA Tournament Predictor] sur le site de Michael Stafford. https://mraystaf.github.io/PersonalWebsite/ncaa-tournament-predictor.html" title="Share by Email" target="_blank"><img src="https://mraystaf.github.io/PersonalWebsite/theme/images/icons/mail-s.png"></a></span>
+            </div>
+        </div> -->
+    </article>
+</section>
+  </article>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      Blog powered by <a href="http://getpelican.com/">Pelican</a>, 
+      which takes great advantage of <a href="http://python.org">Python</a>.
+      Theme <a href="https://github.com/parbhat/pelican-blue">Pelican-Blue</a> by <a href="https://parbhatpuri.com/">@parbhat</a>.
+    </p>
+  </footer>
+
+
+</body>
+</html>
